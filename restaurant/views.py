@@ -1,4 +1,6 @@
 from django.shortcuts import render
+import time 
+import random
 
 # Create your views here.
 
