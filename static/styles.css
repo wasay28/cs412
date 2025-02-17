@@ -83,26 +83,26 @@ section {
     padding-bottom: 4px;
 }
 
-
-nav {
-    justify-self: end;
-    background: none;
-    color: darkblue;
-    /* border: 1px solid; */
+nav ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: flex-end; 
 }
 
 nav li {
-    display: inline-block;
     margin-left: 20px;
 }
 
-nav button {
-    background: none;
-    color: slategray;
-    font-family: Arial;
-    cursor: pointer; 
-    border: 0;
-    font-size: 1.2 em;
+nav a {
+    text-decoration: none;
+    color: darkblue;
+    font-size: 1.2em;
+}
+
+nav a:hover {
+    text-decoration: underline;
 }
 
 .mc-table {
