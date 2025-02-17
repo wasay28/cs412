@@ -1,37 +1,53 @@
 from django.shortcuts import render
-import time 
+from django.utils.timezone import now, timedelta
 import random
 
-# Create your views here.
-
-
 def main(request):
-    
     template_name = 'restaurant/main.html'
-    
-    context = {
-
-    }
-
-    return render(request, template_name, context)
+    return render(request, template_name)
 
 def order(request):
-    ''''Respond to the URL '', delegate work to a template.'''
-
     template_name = 'restaurant/order.html'
-
-    # dict of context variables
+    
+    
     context = {
-
+        "daily_special": "Butter Chicken with Naan",
+        "special_price": 18,
     }
-    return render(request, template_name, context)  
+    
+    return render(request, template_name, context)
 
 def confirmation(request):
-    ''''Respond to the URL '', delegate work to a template.'''
+    if request.method == "POST":
+        
+        name = request.POST.get("name")
+        email = request.POST.get("email")
+        instructions = request.POST.get("instructions")
+        items = request.POST.getlist("items")
 
-    template_name = 'restaurant/confirmation.html'
-    # dict of context variables
-    context = {
+        # Calculate total price
+        prices = {
+            "Chicken Biryani": 12,
+            "Mutton Biryani": 15,
+            "Vegetable Biryani": 10,
+            "Daily Special": 18,
+        }
+        total_price = sum(prices[item] for item in items)
 
-    }
-    return render(request, template_name, context) 
+        
+        ready_time = now() + timedelta(minutes=random.randint(30, 60))
+
+        
+        context = {
+            "name": name,
+            "email": email,
+            "instructions": instructions,
+            "items": items,
+            "total_price": total_price,
+            "ready_time": ready_time.strftime("%I:%M %p"),
+        }
+
+        template_name = 'restaurant/confirmation.html'
+        return render(request, template_name, context)
+    
+    return render(request, 'restaurant/order.html')  

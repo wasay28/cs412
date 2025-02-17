@@ -1,24 +1,16 @@
-{% load static %}
-<html>
+{% extends 'restaurant/base.html' %}
 
-<head>
-    <link rel="stylesheet" href="{% static 'styles.css' %}">
-    <title>Wasay Biryani</title>
-</head>
+{% block title %}Home{% endblock %}
 
+{% block content %}
+<h2>Welcome to Wasay Biryani!</h2>
+<p>We serve the best biryani in town. Visit us or place an order online!</p>
 
+<h3>Hours of Operation:</h3>
+<ul>
+    <li>Monday - Friday: 11:00 AM - 10:00 PM</li>
+    <li>Saturday - Sunday: 12:00 PM - 11:00 PM</li>
+</ul>
 
-<body>
-
-    <h1>
-        Wasay Biryani
-    </h1>
-
-    <h2>
-        Welcome!
-    </h2>
-    
-
-</body>
-
-</html>
+<p>Contact us for reservations or inquiries.</p>
+{% endblock %}

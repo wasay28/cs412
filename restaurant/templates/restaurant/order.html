@@ -1,0 +1,26 @@
+{% extends 'restaurant/base.html' %}
+
+{% block title %}Order{% endblock %}
+
+{% block content %}
+<h2>Place Your Order</h2>
+
+<form method="POST" action="{% url 'confirmation' %}" class="site-form">
+    {% csrf_token %}
+    
+    <h3>Menu:</h3>
+    <label><input type="checkbox" name="items" value="Chicken Biryani"> Chicken Biryani ($12)</label><br>
+    <label><input type="checkbox" name="items" value="Mutton Biryani"> Mutton Biryani ($15)</label><br>
+    <label><input type="checkbox" name="items" value="Vegetable Biryani"> Vegetable Biryani ($10)</label><br>
+    <label><input type="checkbox" name="items" value="Daily Special"> Daily Special ($18)</label><br>
+
+    <h3>Your Details:</h3>
+    <label>Name: <input type="text" name="name" required></label><br>
+    <label>Email: <input type="email" name="email" required></label><br>
+
+    <h3>Special Instructions:</h3>
+    <textarea name="instructions" rows="4"></textarea><br>
+
+    <button type="submit">Submit Order</button>
+</form>
+{% endblock %}

@@ -1,0 +1,22 @@
+{% extends 'restaurant/base.html' %}
+
+{% block title %}Order Confirmation{% endblock %}
+
+{% block content %}
+<h2>Order Confirmation</h2>
+
+<p>Thank you, {{ name }}! Your order has been placed successfully.</p>
+
+<h3>Order Details:</h3>
+<ul>
+    {% for item in items %}
+    <li>{{ item }}</li>
+    {% endfor %}
+</ul>
+
+<p>Total Price: ${{ total_price }}</p>
+
+<p>Your order will be ready by {{ ready_time }}.</p>
+
+<p>If you have any questions, contact us at support@wasaybiryani.com.</p>
+{% endblock %}
