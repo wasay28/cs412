@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>All Profiles</title>
+    <style>
+        table {
+            width: 80%;
+            margin: auto;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: center;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <h1 style="text-align: center;">All Profiles</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Email</th>
+                <th>Bio</th>
+                <th>Created At</th>
+                <th>Details</th> 
+            </tr>
+        </thead>
+        <tbody>
+            {% for profile in profiles %}
+                <tr>
+                    <td>{{ profile.first_name }}</td>
+                    <td>{{ profile.last_name }}</td>
+                    <td>{{ profile.email }}</td>
+                    <td>{{ profile.bio }}</td>
+                    <td>{{ profile.created_at }}</td>
+                    <td><a href="{% url 'profile_detail' profile.id %}">View Details</a></td> 
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

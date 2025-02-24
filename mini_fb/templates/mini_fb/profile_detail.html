@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ profile.first_name }} {{ profile.last_name }}</title>
+</head>
+<body>
+    <h1>{{ profile.first_name }} {{ profile.last_name }}</h1>
+    <p><strong>Email:</strong> {{ profile.email }}</p>
+    <p><strong>Bio:</strong> {{ profile.bio }}</p>
+    <p><strong>Created At:</strong> {{ profile.created_at }}</p>
+
+    <a href="{% url 'profile_list' %}">Back to All Profiles</a>
+</body>
+</html>
