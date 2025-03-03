@@ -9,6 +9,15 @@
     <p><strong>Bio:</strong> {{ profile.bio }}</p>
     <p><strong>Created At:</strong> {{ profile.created_at }}</p>
 
+    <h2>Status Messages</h2>
+    <ul>
+        {% for message in status_messages %}
+            <li>
+                <strong>{{ message.timestamp }}:</strong> {{ message.message }}
+            </li>
+        {% endfor %}
+    </ul>
+
     <a href="{% url 'profile_list' %}">Back to All Profiles</a>
 </body>
 </html>
