@@ -2,7 +2,7 @@ from django.shortcuts import render, get_object_or_404
 from .models import Profile, StatusMessage
 from django.urls import reverse_lazy
 from django.views.generic.edit import CreateView
-from .forms import CreateProfileForm, CreateStatusMessageForm,
+from .forms import CreateProfileForm, CreateStatusMessageForm
 
 # Create your views here.
 def profile_list(request):
