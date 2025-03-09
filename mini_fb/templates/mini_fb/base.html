@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Mini FB</title>
+</head>
+<body>
+    <nav>
+        <a href="{% url 'profile_list' %}">Home</a> |
+        <a href="{% url 'create_profile' %}">Create Profile</a>
+    </nav>
+    <hr>
+    
+    {% block content %}
+    {% endblock %}
+</body>
+</html>

@@ -18,7 +18,10 @@ class CreateProfileView(CreateView):
     model = Profile
     form_class = CreateProfileForm
     template_name = 'mini_fb/create_profile_form.html'
-    success_url = reverse_lazy('profile_list')
+    
+    def get_success_url(self):
+        # Redirect to the newly created profile's detail page
+        return self.object.get_absolute_url()
 
 class CreateStatusMessageView(CreateView):
     model = StatusMessage
