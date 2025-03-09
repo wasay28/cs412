@@ -9,13 +9,15 @@
     <title>Post Status Message</title>
 </head>
 <body>
-    <h1>Post a Status Message for {{ view.object.profile.first_name }}</h1>
+    <h1>Post a Status Message for {{ view.kwargs.pk|add:"" }}</h1>
     <form method="post">
         {% csrf_token %}
         {{ form.as_p }}
-        <button type="submit">Post Message</button>
-        <a href="{% url 'profile_detail' view.object.profile.id %}">Cancel</a>
+        <button type="submit">Create Status</button>
     </form>
+
+    <!-- Cancel button redirects back to the associated profile's detail page -->
+    <a href="{% url 'profile_detail' pk=view.kwargs.pk %}">Cancel</a>
 </body>
 </html>
 
