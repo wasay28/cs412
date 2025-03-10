@@ -17,13 +17,23 @@
 
     <h2>Status Messages</h2>
     <ul>
-        {% for message in status_messages %}
+        {% for status in profile.get_status_messages %}
             <li>
-                <strong>{{ message.timestamp }}:</strong> {{ message.message }}
+                <strong>{{ status.timestamp }}:</strong> {{ status.message }}
+                <ul>
+                    <!-- Loop through images associated with this status message -->
+                    {% for img in status.get_images %}
+                        <li>
+                            <img src="{{ img.image.image_file.url }}" alt="{{ img.image.caption }}" style="max-width: 300px;">
+                            <p>{{ img.image.caption }}</p>
+                        </li>
+                    {% endfor %}
+                </ul>
             </li>
+        {% empty %}
+            <li>No status messages yet.</li>
         {% endfor %}
     </ul>
-
     <a href="{% url 'profile_list' %}">Back to All Profiles</a>
 </body>
 </html>

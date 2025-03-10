@@ -27,6 +27,9 @@ class StatusMessage(models.Model):
     def __str__(self):
         return f"Message by {self.profile.first_name} at {self.timestamp}"
     
+    def get_images(self):
+        return self.status_images.all()
+    
 class Image(models.Model):
     profile = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name="images")
     image_file = models.ImageField(upload_to='images/')  # Store images in 'media/images/'
