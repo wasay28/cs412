@@ -10,9 +10,13 @@
 </head>
 <body>
     <h1>Post a Status Message for {{ view.kwargs.pk|add:"" }}</h1>
-    <form method="post">
+    <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
         {{ form.as_p }}
+
+        <label for="files">Upload Images:</label>
+        <input type="file" name="files" multiple />
+        
         <button type="submit">Create Status</button>
     </form>
 

@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404
-from .models import Profile, StatusMessage
+from .models import Profile, StatusMessage, Image, StatusImage
 from django.urls import reverse_lazy
 from django.views.generic.edit import CreateView
 from .forms import CreateProfileForm, CreateStatusMessageForm
@@ -29,8 +29,22 @@ class CreateStatusMessageView(CreateView):
     template_name = 'mini_fb/create_status_form.html'
 
     def form_valid(self, form):
-        profile_id = self.kwargs['pk']
-        form.instance.profile_id = profile_id
+        # Save the status message to the database
+        sm = form.save(commit=False)
+        sm.profile = get_object_or_404(Profile, pk=self.kwargs['pk'])
+        sm.save()
+
+        # Process uploaded files
+        files = self.request.FILES.getlist('files')  # Get list of uploaded files
+        for f in files:
+            # Create and save an Image object
+            img = Image(profile=sm.profile, image_file=f)
+            img.save()
+
+            # Create and save a StatusImage object linking the image to the status message
+            status_image = StatusImage(status_message=sm, image=img)
+            status_image.save()
+
         return super().form_valid(form)
 
     def get_success_url(self):
