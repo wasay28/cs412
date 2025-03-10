@@ -26,3 +26,19 @@ class StatusMessage(models.Model):
 
     def __str__(self):
         return f"Message by {self.profile.first_name} at {self.timestamp}"
+    
+class Image(models.Model):
+    profile = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name="images")
+    image_file = models.ImageField(upload_to='images/')  # Store images in 'media/images/'
+    timestamp = models.DateTimeField(auto_now_add=True)
+    caption = models.TextField(blank=True, null=True)
+
+    def __str__(self):
+        return f"Image for {self.profile.first_name} uploaded at {self.timestamp}"
+
+class StatusImage(models.Model):
+    status_message = models.ForeignKey(StatusMessage, on_delete=models.CASCADE, related_name="status_images")
+    image = models.ForeignKey(Image, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"Image for StatusMessage ID {self.status_message.id}"
