@@ -22,6 +22,10 @@
         {% for status in profile.get_status_messages %}
             <li>
                 <strong>{{ status.timestamp }}:</strong> {{ status.message }}
+
+                <a href="{% url 'update_status' pk=status.id %}">update</a> | 
+                <a href="{% url 'delete_status' pk=status.id %}">delete</a>
+                
                 <ul>
                     <!-- Loop through images associated with this status message -->
                     {% for img in status.get_images %}
