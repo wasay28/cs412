@@ -13,6 +13,8 @@
     <p><strong>Bio:</strong> {{ profile.bio }}</p>
     <p><strong>Created At:</strong> {{ profile.created_at }}</p>
 
+    <a href="{% url 'update_profile' pk=profile.id %}">Update Profile</a>
+
     <a href="{% url 'create_status' profile.id %}">Post a Status Message</a>
 
     <h2>Status Messages</h2>

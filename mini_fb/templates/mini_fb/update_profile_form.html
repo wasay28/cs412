@@ -1,0 +1,16 @@
+{% extends 'mini_fb/base.html' %}
+
+{% block content %}
+<h1>Update Profile for {{ object.first_name }} {{ object.last_name }}</h1>
+
+<form method="post">
+    {% csrf_token %}
+    <div class="form-group">
+        {{ form.as_p }}
+    </div>
+    <button type="submit" class="btn btn-primary">Update Profile</button>
+</form>
+
+<!-- Cancel button that returns to the profile page -->
+<a href="{% url 'profile_detail' pk=object.pk %}" class="btn btn-secondary">Cancel</a>
+{% endblock %}

@@ -1,8 +1,8 @@
 from django.shortcuts import render, get_object_or_404
 from .models import Profile, StatusMessage, Image, StatusImage
 from django.urls import reverse_lazy
-from django.views.generic.edit import CreateView
-from .forms import CreateProfileForm, CreateStatusMessageForm
+from django.views.generic.edit import CreateView, UpdateView
+from .forms import CreateProfileForm, CreateStatusMessageForm, UpdateProfileForm
 
 # Create your views here.
 def profile_list(request):
@@ -50,3 +50,12 @@ class CreateStatusMessageView(CreateView):
     def get_success_url(self):
         profile_id = self.kwargs['pk']
         return reverse_lazy('profile_detail', kwargs={'pk': profile_id})
+
+class UpdateProfileView(UpdateView):
+    model = Profile
+    form_class = UpdateProfileForm
+    template_name = 'mini_fb/update_profile_form.html'
+    
+    def get_success_url(self):
+        # Redirect to profile detail page after successful update
+        return reverse_lazy('profile_detail', kwargs={'pk': self.object.pk})
