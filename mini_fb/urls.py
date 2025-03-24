@@ -1,6 +1,6 @@
 from django.urls import path
 from . import views
-from .views import CreateProfileView, CreateStatusMessageView, UpdateProfileView, UpdateStatusMessageView, DeleteStatusMessageView, AddFriendView
+from .views import CreateProfileView, CreateStatusMessageView, UpdateProfileView, UpdateStatusMessageView, DeleteStatusMessageView, AddFriendView, ShowNewsFeedView
 
 urlpatterns = [
     path('', views.profile_list, name='profile_list'),
@@ -12,4 +12,5 @@ urlpatterns = [
     path('status/<int:pk>/delete/', DeleteStatusMessageView.as_view(), name='delete_status'),
     path('profile/<int:profile_pk>/add_friend/<int:friend_pk>/', AddFriendView.as_view(), name='add_friend'),
     path('profile/<int:pk>/friend_suggestions/', views.friend_suggestions, name='friend_suggestions'),
+    path('profile/<int:pk>/news_feed/', ShowNewsFeedView.as_view(), name='news_feed'),
 ]

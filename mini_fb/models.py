@@ -63,6 +63,23 @@ class Profile(models.Model):
         friend_suggestions = [profile for profile in all_profiles if profile not in friends]
         
         return friend_suggestions
+    
+    def get_news_feed(self):
+        # Get all friends of this profile
+        friends = self.get_friends()
+        
+        # Start with this profile's own status messages
+        news_feed = list(self.get_status_messages())
+        
+        # Add all status messages from friends
+        for friend in friends:
+            news_feed.extend(list(friend.get_status_messages()))
+        
+        # Sort all status messages by timestamp, most recent first
+        news_feed.sort(key=lambda x: x.timestamp, reverse=True)
+        
+        return news_feed
+
 
 
 class StatusMessage(models.Model):

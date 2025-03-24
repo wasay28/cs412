@@ -2,6 +2,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from .models import Profile, StatusMessage, Image, StatusImage
 from django.urls import reverse_lazy, reverse
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.views.generic import DetailView
 from django.views import View
 from .forms import CreateProfileForm, CreateStatusMessageForm, UpdateProfileForm
 
@@ -100,3 +101,14 @@ def friend_suggestions(request, pk):
         suggestions = profile.get_friend_suggestions()
         return render(request, 'mini_fb/friend_suggestions.html', 
                     {'profile': profile, 'suggestions': suggestions})
+
+class ShowNewsFeedView(DetailView):
+    model = Profile
+    template_name = 'mini_fb/news_feed.html'
+    context_object_name = 'profile'
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        profile = self.get_object()
+        context['news_feed'] = profile.get_news_feed()
+        return context

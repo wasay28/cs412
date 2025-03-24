@@ -17,6 +17,8 @@
 
     <a href="{% url 'create_status' profile.id %}">Post a Status Message</a>
 
+    <a href="{% url 'news_feed' pk=profile.id %}">View News Feed</a>
+
     <h2>Friends</h2>
     <ul>
         {% for friend in profile.get_friends %}
