@@ -30,6 +30,8 @@
         {% endfor %}
     </ul>
 
+    <a href="{% url 'friend_suggestions' pk=profile.id %}">Find Friends</a>
+
     <h2>Status Messages</h2>
     <ul>
         {% for status in profile.get_status_messages %}

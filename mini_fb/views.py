@@ -1,7 +1,8 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from .models import Profile, StatusMessage, Image, StatusImage
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.views import View
 from .forms import CreateProfileForm, CreateStatusMessageForm, UpdateProfileForm
 
 # Create your views here.
@@ -80,3 +81,22 @@ class UpdateStatusMessageView(UpdateView):
         # Redirect to the profile page after successful update
         profile_id = self.object.profile.id
         return reverse_lazy('profile_detail', kwargs={'pk': profile_id})
+
+class AddFriendView(View):
+    def get(self, request, profile_pk, friend_pk):
+        # Get the profile doing the friending
+        profile = get_object_or_404(Profile, pk=profile_pk)
+        # Get the profile to be friended
+        friend = get_object_or_404(Profile, pk=friend_pk)
+        
+        # Add the friend
+        profile.add_friend(friend)
+        
+        # Redirect back to the profile page
+        return redirect(reverse('profile_detail', kwargs={'pk': profile_pk}))
+    
+def friend_suggestions(request, pk):
+        profile = get_object_or_404(Profile, pk=pk)
+        suggestions = profile.get_friend_suggestions()
+        return render(request, 'mini_fb/friend_suggestions.html', 
+                    {'profile': profile, 'suggestions': suggestions})

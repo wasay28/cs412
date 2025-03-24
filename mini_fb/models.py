@@ -35,8 +35,36 @@ class Profile(models.Model):
             friend_profiles.append(friendship.profile1)
         
         return friend_profiles
-
     
+    def add_friend(self, other):
+        # Check if friendship already exists (in either direction)
+        if Friend.objects.filter(profile1=self, profile2=other).exists() or \
+        Friend.objects.filter(profile1=other, profile2=self).exists():
+            # Friendship already exists, do nothing
+            return False
+        
+        # Check that we're not trying to friend ourselves
+        if self == other:
+            return False
+            
+        # Create new friendship
+        friendship = Friend(profile1=self, profile2=other)
+        friendship.save()
+        return True
+    
+    def get_friend_suggestions(self):
+        # Get all profiles
+        all_profiles = Profile.objects.exclude(id=self.id)
+        
+        # Get existing friends
+        friends = self.get_friends()
+        
+        # Exclude existing friends from all profiles
+        friend_suggestions = [profile for profile in all_profiles if profile not in friends]
+        
+        return friend_suggestions
+
+
 class StatusMessage(models.Model):
     timestamp = models.DateTimeField(auto_now_add=True)
     message = models.TextField()
