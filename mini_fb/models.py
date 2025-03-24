@@ -19,6 +19,24 @@ class Profile(models.Model):
         # Use reverse to dynamically generate the profile detail URL
         return reverse('profile_detail', kwargs={'pk': self.pk})
     
+    def get_friends(self):
+    # Get all friendship relationships where this profile is either profile1 or profile2
+        friends_as_profile1 = Friend.objects.filter(profile1=self)
+        friends_as_profile2 = Friend.objects.filter(profile2=self)
+        
+        # Create a list to store the friend profiles
+        friend_profiles = []
+        
+        # Add the opposite profile from each friendship relationship
+        for friendship in friends_as_profile1:
+            friend_profiles.append(friendship.profile2)
+        
+        for friendship in friends_as_profile2:
+            friend_profiles.append(friendship.profile1)
+        
+        return friend_profiles
+
+    
 class StatusMessage(models.Model):
     timestamp = models.DateTimeField(auto_now_add=True)
     message = models.TextField()
@@ -45,3 +63,11 @@ class StatusImage(models.Model):
 
     def __str__(self):
         return f"Image for StatusMessage ID {self.status_message.id}"
+    
+class Friend(models.Model):
+    profile1 = models.ForeignKey(Profile, related_name="friends_as_profile1", on_delete=models.CASCADE)
+    profile2 = models.ForeignKey(Profile, related_name="friends_as_profile2", on_delete=models.CASCADE)
+    timestamp = models.DateTimeField(auto_now_add=True)
+    
+    def __str__(self):
+        return f"{self.profile1} is friends with {self.profile2} since {self.timestamp}"

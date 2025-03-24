@@ -17,6 +17,19 @@
 
     <a href="{% url 'create_status' profile.id %}">Post a Status Message</a>
 
+    <h2>Friends</h2>
+    <ul>
+        {% for friend in profile.get_friends %}
+            <li>
+                <a href="{% url 'profile_detail' pk=friend.id %}">
+                    {{ friend.first_name }} {{ friend.last_name }}
+                </a>
+            </li>
+        {% empty %}
+            <li>No friends yet.</li>
+        {% endfor %}
+    </ul>
+
     <h2>Status Messages</h2>
     <ul>
         {% for status in profile.get_status_messages %}
