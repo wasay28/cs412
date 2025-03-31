@@ -13,9 +13,10 @@
     <p><strong>Bio:</strong> {{ profile.bio }}</p>
     <p><strong>Created At:</strong> {{ profile.created_at }}</p>
 
-    <a href="{% url 'update_profile' pk=profile.id %}">Update Profile</a>
-
-    <a href="{% url 'create_status' profile.id %}">Post a Status Message</a>
+    {% if user.is_authenticated and user == profile.user %}
+        <a href="{% url 'update_profile' pk=profile.id %}">Update Profile</a>
+        <a href="{% url 'create_status' profile.id %}">Post a Status Message</a>
+    {% endif %}
 
     <a href="{% url 'news_feed' pk=profile.id %}">View News Feed</a>
 
@@ -40,8 +41,10 @@
             <li>
                 <strong>{{ status.timestamp }}:</strong> {{ status.message }}
 
-                <a href="{% url 'update_status' pk=status.id %}">update</a> | 
-                <a href="{% url 'delete_status' pk=status.id %}">delete</a>
+                {% if user.is_authenticated and user == profile.user %}
+                    <a href="{% url 'update_status' pk=status.id %}">update</a> | 
+                    <a href="{% url 'delete_status' pk=status.id %}">delete</a>
+                {% endif %}
                 
                 <ul>
                     <!-- Loop through images associated with this status message -->

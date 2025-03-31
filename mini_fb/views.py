@@ -5,18 +5,21 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic import DetailView
 from django.views import View
 from .forms import CreateProfileForm, CreateStatusMessageForm, UpdateProfileForm
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 def profile_list(request):
     profiles = Profile.objects.all()
     return render(request, 'mini_fb/profile_list.html', {'profiles': profiles})
 
+@login_required
 def profile_detail(request, pk):
     profile = get_object_or_404(Profile, pk=pk)
     status_messages = profile.get_status_messages()
     return render(request, 'mini_fb/profile_detail.html', {'profile': profile, 'status_messages': status_messages})
 
-class CreateProfileView(CreateView):
+class CreateProfileView(LoginRequiredMixin, CreateView):
     model = Profile
     form_class = CreateProfileForm
     template_name = 'mini_fb/create_profile_form.html'
@@ -25,7 +28,7 @@ class CreateProfileView(CreateView):
         # Redirect to the newly created profile's detail page
         return self.object.get_absolute_url()
 
-class CreateStatusMessageView(CreateView):
+class CreateStatusMessageView(LoginRequiredMixin, CreateView):
     model = StatusMessage
     form_class = CreateStatusMessageForm
     template_name = 'mini_fb/create_status_form.html'
@@ -53,7 +56,7 @@ class CreateStatusMessageView(CreateView):
         profile_id = self.kwargs['pk']
         return reverse_lazy('profile_detail', kwargs={'pk': profile_id})
 
-class UpdateProfileView(UpdateView):
+class UpdateProfileView(LoginRequiredMixin, UpdateView):
     model = Profile
     form_class = UpdateProfileForm
     template_name = 'mini_fb/update_profile_form.html'
@@ -62,7 +65,7 @@ class UpdateProfileView(UpdateView):
         # Redirect to profile detail page after successful update
         return reverse_lazy('profile_detail', kwargs={'pk': self.object.pk})
 
-class DeleteStatusMessageView(DeleteView):
+class DeleteStatusMessageView(LoginRequiredMixin, DeleteView):
     model = StatusMessage
     template_name = 'mini_fb/delete_status_form.html'
     context_object_name = 'status'
@@ -72,7 +75,7 @@ class DeleteStatusMessageView(DeleteView):
         profile_id = self.object.profile.id
         return reverse_lazy('profile_detail', kwargs={'pk': profile_id})
 
-class UpdateStatusMessageView(UpdateView):
+class UpdateStatusMessageView(LoginRequiredMixin, UpdateView):
     model = StatusMessage
     form_class = CreateStatusMessageForm
     template_name = 'mini_fb/update_status_form.html'
