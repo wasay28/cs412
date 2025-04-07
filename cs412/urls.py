@@ -28,4 +28,5 @@ urlpatterns = [
     path('mini_fb/', include('mini_fb.urls')),
     path('accounts/login/', auth_views.LoginView.as_view(template_name='mini_fb/login.html'), name='login'),
     path('accounts/logout/', auth_views.LogoutView.as_view(next_page='/mini_fb/'), name='logout'),
+    path('voter_analytics/', include('voter_analytics.urls')),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
