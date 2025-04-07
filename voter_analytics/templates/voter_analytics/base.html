@@ -16,6 +16,18 @@
             margin-bottom: 20px;
             border-radius: 5px;
         }
+
+        .graph-card {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+        }
+    
+        .graph-content {
+            width: 100%;
+            overflow-x: auto;
+        }
     </style>
 </head>
 <body>
@@ -29,7 +41,9 @@
                             <li class="nav-item">
                                 <a class="nav-link" href="{% url 'voters' %}">Voters List</a>
                             </li>
-                            
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'graphs' %}">Analytics Graphs</a>
+                            </li>
                         </ul>
                     </div>
                 </div>
