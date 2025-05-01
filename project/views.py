@@ -1,5 +1,4 @@
 # Create your views here.
-# travelbuddy/views.py
 
 from django.views import generic
 from django.urls import reverse_lazy
