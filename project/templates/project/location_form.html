@@ -1,0 +1,12 @@
+{% extends "project/base.html" %}
+
+{% block title %}Add Location{% endblock %}
+{% block header %}Add a New Location{% endblock %}
+
+{% block content %}
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Save Location</button>
+    </form>
+{% endblock %}

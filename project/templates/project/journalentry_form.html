@@ -1,0 +1,12 @@
+{% extends "project/base.html" %}
+
+{% block title %}Add Journal Entry{% endblock %}
+{% block header %}Add a New Journal Entry{% endblock %}
+
+{% block content %}
+    <form method="post" enctype="multipart/form-data"> {# Add enctype for image uploads #}
+        {% csrf_token %}
+        {{ form.as_p }} {# Render form fields as paragraphs #}
+        <button type="submit">Save Entry</button>
+    </form>
+{% endblock %}

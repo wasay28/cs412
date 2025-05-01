@@ -1,0 +1,21 @@
+{% extends "project/base.html" %}
+
+{% block title %}Journal Entries{% endblock %}
+{% block header %}All Journal Entries{% endblock %}
+
+{% block content %}
+    {% if journalentry_list %}
+        <ul>
+        {% for entry in journalentry_list %}
+            <li>
+                <a href="{% url 'project:entry-detail' pk=entry.pk %}">{{ entry.title }}</a>
+                by {{ entry.user.username }}
+                at <a href="{% url 'project:location-detail' pk=entry.location.pk %}">{{ entry.location.name }}</a>
+                on {{ entry.created_date|date:"M d, Y" }}
+            </li>
+        {% endfor %}
+        </ul>
+    {% else %}
+        <p>No journal entries found. <a href="{% url 'project:entry-create' %}">Add one?</a></p>
+    {% endif %}
+{% endblock %}

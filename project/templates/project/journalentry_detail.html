@@ -1,0 +1,30 @@
+{% extends "project/base.html" %}
+
+{% block title %}{{ journalentry.title }}{% endblock %}
+{% block header %}{{ journalentry.title }}{% endblock %}
+
+{% block content %}
+    <p><strong>Author:</strong> {{ journalentry.user.username }}</p>
+    <p><strong>Date:</strong> {{ journalentry.created_date|date:"M d, Y H:i" }}</p>
+    <p><strong>Location:</strong> <a href="{% url 'project:location-detail' pk=journalentry.location.pk %}">{{ journalentry.location.name }}</a> ({{ journalentry.location.city }}, {{ journalentry.location.country }})</p>
+    <p><strong>Visibility:</strong> {{ journalentry.get_visibility_display }}</p>
+
+    {% if journalentry.tags.all %}
+        <p><strong>Tags:</strong>
+        {% for tag in journalentry.tags.all %}
+            {{ tag.name }}{% if not forloop.last %}, {% endif %}
+        {% endfor %}
+        </p>
+    {% endif %}
+
+    {% if journalentry.image %}
+        <img src="{{ journalentry.image.url }}" alt="{{ journalentry.title }} image" style="max-width: 400px; height: auto;">
+    {% endif %}
+
+    <hr>
+    <div>{{ journalentry.content|linebreaksbr }}</div> {# Use linebreaksbr to respect newlines #}
+
+    <hr>
+    <a href="{% url 'project:entry-list' %}">Back to list</a>
+    {# Add Edit/Delete links later if time permits #}
+{% endblock %}

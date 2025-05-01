@@ -1,0 +1,30 @@
+{% extends "project/base.html" %}
+
+{% block title %}{{ location.name }}{% endblock %}
+{% block header %}{{ location.name }}{% endblock %}
+
+{% block content %}
+    <p><strong>City:</strong> {{ location.city }}</p>
+    <p><strong>Country:</strong> {{ location.country }}</p>
+    <p><strong>Address:</strong> {{ location.address|default:"N/A" }}</p>
+    <p><strong>Coordinates (Temp):</strong> {{ location.coordinates|default:"N/A" }}</p>
+    <p><strong>Description:</strong> {{ location.description|default:"N/A"|linebreaksbr }}</p>
+
+    <hr>
+    <h3>Journal Entries at this Location:</h3>
+    {% with entries=location.journal_entries.all %}
+        {% if entries %}
+            <ul>
+            {% for entry in entries %}
+                <li><a href="{% url 'project:entry-detail' pk=entry.pk %}">{{ entry.title }}</a> by {{ entry.user.username }}</li>
+            {% endfor %}
+            </ul>
+        {% else %}
+            <p>No journal entries recorded here yet.</p>
+        {% endif %}
+    {% endwith %}
+
+    <hr>
+    <a href="{% url 'project:location-list' %}">Back to list</a>
+    {# Add Edit/Delete links later if time permits #}
+{% endblock %}
