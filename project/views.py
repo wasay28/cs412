@@ -4,6 +4,8 @@ from django.views import generic
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin # To protect create views
 
+from django.db.models import Q
+
 from .models import JournalEntry, Location, Tag
 from .forms import JournalEntryForm, LocationForm 
 
@@ -14,7 +16,19 @@ class JournalEntryListView(generic.ListView):
     context_object_name = 'journalentry_list' # Default is 'object_list'
     template_name = 'project/journalentry_list.html' # Explicitly state template
     # Optional: Order by most recent
-    queryset = JournalEntry.objects.order_by('-created_date')
+    def get_queryset(self):
+        queryset = JournalEntry.objects.order_by('-created_date') # Start with default ordering
+        query = self.request.GET.get('q')
+        if query:
+            # Search in title, content, user's username, location name, or tags
+            queryset = queryset.filter(
+                Q(title__icontains=query) |
+                Q(content__icontains=query) |
+                Q(user__username__icontains=query) |
+                Q(location__name__icontains=query) |
+                Q(tags__name__icontains=query)
+            ).distinct() # Use distinct because of ManyToMany join with tags
+        return queryset
 
 class JournalEntryDetailView(generic.DetailView):
     model = JournalEntry
@@ -63,7 +77,18 @@ class LocationListView(generic.ListView):
     model = Location
     context_object_name = 'location_list'
     template_name = 'project/location_list.html'
-    queryset = Location.objects.order_by('name')
+    def get_queryset(self):
+        queryset = Location.objects.order_by('name') # Start with default ordering
+        query = self.request.GET.get('q')
+        if query:
+            # Search in name, country, city, or address
+            queryset = queryset.filter(
+                Q(name__icontains=query) |
+                Q(country__icontains=query) |
+                Q(city__icontains=query) |
+                Q(address__icontains=query)
+            )
+        return queryset
 
 class LocationDetailView(generic.DetailView):
     model = Location

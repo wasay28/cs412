@@ -4,6 +4,16 @@
 {% block header %}All Locations{% endblock %}
 
 {% block content %}
+
+    <form method="get" action="{% url 'project:location-list' %}" class="mb-3">
+        <div class="input-group">
+            <input type="text" name="q" class="form-control" placeholder="Search locations..." value="{{ request.GET.q }}">
+            <button class="btn btn-outline-secondary" type="submit">Search</button>
+        </div>
+    </form>
+
+
+
     {% if location_list %}
         <ul>
         {% for loc in location_list %}

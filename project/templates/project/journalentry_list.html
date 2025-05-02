@@ -4,6 +4,15 @@
 {% block header %}All Journal Entries{% endblock %}
 
 {% block content %}
+
+    <form method="get" action="{% url 'project:entry-list' %}" class="mb-3">
+        <div class="input-group">
+            <input type="text" name="q" class="form-control" placeholder="Search entries..." value="{{ request.GET.q }}">
+            <button class="btn btn-outline-secondary" type="submit">Search</button>
+        </div>
+    </form>
+
+
     {% if journalentry_list %}
         <ul>
         {% for entry in journalentry_list %}
