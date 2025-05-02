@@ -1,0 +1,13 @@
+{% extends "project/base.html" %}
+
+{% block title %}Confirm Delete{% endblock %}
+{% block header %}Delete Journal Entry{% endblock %}
+
+{% block content %}
+    <form method="post">
+        {% csrf_token %}
+        <p>Are you sure you want to delete the entry titled: <strong>"{{ object.title }}"</strong>?</p>
+        <button type="submit" class="btn btn-danger">Confirm Delete</button>
+        <a href="{% url 'project:entry-detail' pk=object.pk %}" class="btn btn-secondary">Cancel</a>
+    </form>
+{% endblock %}

@@ -2,7 +2,7 @@
 
 from django.views import generic
 from django.urls import reverse_lazy
-from django.contrib.auth.mixins import LoginRequiredMixin # To protect create views
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin # To protect create views
 
 from .models import JournalEntry, Location, Tag
 from .forms import JournalEntryForm, LocationForm 
@@ -32,6 +32,31 @@ class JournalEntryCreateView(LoginRequiredMixin, generic.CreateView):
         form.instance.user = self.request.user
         return super().form_valid(form)
 
+class JournalEntryUpdateView(LoginRequiredMixin, UserPassesTestMixin, generic.UpdateView):
+    model = JournalEntry
+    form_class = JournalEntryForm 
+    template_name = 'project/journalentry_form.html' 
+    # success_url = reverse_lazy('project:entry-list') # Or redirect to detail view
+
+    def get_success_url(self):
+        # Redirect back to the detail view of the updated entry
+        return reverse_lazy('project:entry-detail', kwargs={'pk': self.object.pk})
+
+    # Test function to ensure only the author can edit their entry
+    def test_func(self):
+        entry = self.get_object()
+        return self.request.user == entry.user
+
+class JournalEntryDeleteView(LoginRequiredMixin, UserPassesTestMixin, generic.DeleteView):
+    model = JournalEntry
+    template_name = 'project/journalentry_confirm_delete.html' 
+    success_url = reverse_lazy('project:entry-list') # Redirect to list after delete
+
+    # Test function to ensure only the author can delete their entry
+    def test_func(self):
+        entry = self.get_object()
+        return self.request.user == entry.user
+
 # --- Location Views ---
 
 class LocationListView(generic.ListView):
@@ -49,6 +74,20 @@ class LocationCreateView(LoginRequiredMixin, generic.CreateView):
     model = Location
     form_class = LocationForm 
     template_name = 'project/location_form.html'
+    success_url = reverse_lazy('project:location-list')
+
+class LocationUpdateView(LoginRequiredMixin, generic.UpdateView): 
+    model = Location
+    form_class = LocationForm
+    template_name = 'project/location_form.html'
+    # success_url = reverse_lazy('project:location-list')
+
+    def get_success_url(self):
+        return reverse_lazy('project:location-detail', kwargs={'pk': self.object.pk})
+
+class LocationDeleteView(LoginRequiredMixin, generic.DeleteView): # Add permission check if needed
+    model = Location
+    template_name = 'project/location_confirm_delete.html' 
     success_url = reverse_lazy('project:location-list')
 
 

@@ -26,5 +26,15 @@
 
     <hr>
     <a href="{% url 'project:entry-list' %}">Back to list</a>
-    {# Add Edit/Delete links later if time permits #}
+    
+
+    {% if user.is_authenticated and user == journalentry.user %}
+    <a href="{% url 'project:entry-update' pk=journalentry.pk %}" class="btn btn-secondary">Edit Entry</a>
+    {% endif %}
+
+    {% if user.is_authenticated and user == journalentry.user %}
+    <a href="{% url 'project:entry-delete' pk=journalentry.pk %}" class="btn btn-danger" style="margin-left: 5px;">Delete Entry</a>
+    {% endif %}
+
+
 {% endblock %}

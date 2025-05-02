@@ -26,5 +26,14 @@
 
     <hr>
     <a href="{% url 'project:location-list' %}">Back to list</a>
-    {# Add Edit/Delete links later if time permits #}
+    
+    {% if user.is_authenticated %} 
+    <a href="{% url 'project:location-update' pk=location.pk %}" class="btn btn-secondary">Edit Location</a>
+    {% endif %}
+
+    {% if user.is_authenticated %} 
+     <a href="{% url 'project:location-delete' pk=location.pk %}" class="btn btn-danger" style="margin-left: 5px;">Delete Location</a>
+    {% endif %}
+
+
 {% endblock %}
