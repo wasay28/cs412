@@ -32,6 +32,7 @@ ALLOWED_HOSTS = ['cs-webapps.bu.edu', '*']
 # Application definition
 
 INSTALLED_APPS = [
+    "project",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -43,7 +44,6 @@ INSTALLED_APPS = [
     "restaurant",
     "mini_fb",
     "voter_analytics",
-    "project",
 ]
 
 MIDDLEWARE = [
@@ -137,3 +137,5 @@ CS_DEPLOYMENT_HOSTNAME = 'cs-webapps.bu.edu'
 if socket.gethostname() == CS_DEPLOYMENT_HOSTNAME:
     STATIC_URL = '/wasayr1/static/'
     MEDIA_URL = '/wasayr1/media/'
+
+LOGIN_REDIRECT_URL = '/project/'

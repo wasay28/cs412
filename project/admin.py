@@ -7,7 +7,7 @@ from .models import Location, Tag, JournalEntry
 # Register models to make them available in the admin interface
 @admin.register(Location)
 class LocationAdmin(admin.ModelAdmin): 
-    list_display = ('name', 'city', 'country', 'coordinates', 'created_at')
+    list_display = ('name', 'city', 'country', 'coordinates')
     search_fields = ('name', 'city', 'country', 'address')
     list_filter = ('country', 'city')
   

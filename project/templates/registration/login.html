@@ -1,0 +1,21 @@
+{% extends "project/base.html" %}
+
+{% block content %}
+  <h2>Login</h2>
+  {% if form.errors %}
+    <p>Your username and password didn't match. Please try again.</p>
+  {% endif %}
+  <form method="post">
+    {% csrf_token %}
+    <div>
+      <label for="id_username">Username:</label>
+      {{ form.username }}
+    </div>
+    <div>
+      <label for="id_password">Password:</label>
+      {{ form.password }}
+    </div>
+    <button type="submit">Login</button>
+    <input type="hidden" name="next" value="{{ next }}">
+  </form>
+{% endblock %}
