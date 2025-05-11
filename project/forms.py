@@ -1,5 +1,3 @@
-
-
 from django import forms
 from .models import JournalEntry, Location
 
@@ -8,7 +6,7 @@ class JournalEntryForm(forms.ModelForm):
         model = JournalEntry
         # Include fields users should fill out
         # Exclude 'user' because we set it automatically in the view
-        fields = ['title', 'content', 'location', 'visibility', 'tags', 'image']
+        fields = ['title', 'content', 'location', 'tags', 'image']
         
 
 class LocationForm(forms.ModelForm):

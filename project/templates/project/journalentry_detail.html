@@ -7,7 +7,6 @@
     <p><strong>Author:</strong> {{ journalentry.user.username }}</p>
     <p><strong>Date:</strong> {{ journalentry.created_date|date:"M d, Y H:i" }}</p>
     <p><strong>Location:</strong> <a href="{% url 'project:location-detail' pk=journalentry.location.pk %}">{{ journalentry.location.name }}</a> ({{ journalentry.location.city }}, {{ journalentry.location.country }})</p>
-    <p><strong>Visibility:</strong> {{ journalentry.get_visibility_display }}</p>
 
     {% if journalentry.tags.all %}
         <p><strong>Tags:</strong>

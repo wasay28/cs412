@@ -22,11 +22,6 @@ class JournalEntry(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     location = models.ForeignKey(Location, on_delete=models.SET_NULL, null=True, blank=True)
     image = models.ImageField(upload_to='journal_images/', blank=True, null=True)
-    VISIBILITY_CHOICES = [
-        ('public', 'Public'),
-        ('private', 'Private'),
-    ]
-    visibility = models.CharField(max_length=10, choices=VISIBILITY_CHOICES, default='public')
     tags = models.ManyToManyField('Tag', through='EntryTag', blank=True)
 
 class Tag(models.Model):

@@ -19,8 +19,8 @@ class TagAdmin(admin.ModelAdmin):
 
 @admin.register(JournalEntry)
 class JournalEntryAdmin(admin.ModelAdmin):
-    list_display = ('title', 'user', 'location', 'created_date', 'visibility')
-    list_filter = ('visibility', 'created_date', 'user', 'tags')
+    list_display = ('title', 'user', 'location', 'created_date')
+    list_filter = ('created_date', 'user', 'tags')
     search_fields = ('title', 'content', 'user__username', 'location__name')
     # Add filter_horizontal for easier tag selection if you have many tags
     filter_horizontal = ('tags',)
