@@ -12,6 +12,9 @@ class Location(models.Model):
     city = models.CharField(max_length=100)
     address = models.CharField(max_length=255)
 
+    def __str__(self):
+        return f"{self.name} ({self.city}, {self.country})"
+
 class JournalEntry(models.Model):
     title = models.CharField(max_length=200)
     content = models.TextField()
