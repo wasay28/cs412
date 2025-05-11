@@ -8,7 +8,7 @@ from .models import Location, Tag, JournalEntry
 @admin.register(Location)
 class LocationAdmin(admin.ModelAdmin): 
     list_display = ('name', 'city', 'country', 'latitude', 'longitude')
-    search_fields = ('name', 'city', 'country', 'address')
+    search_fields = ('name', 'city', 'country')
     list_filter = ('country', 'city')
   
 

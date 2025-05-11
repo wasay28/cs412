@@ -10,7 +10,6 @@ class Location(models.Model):
     longitude = models.FloatField(null=True, blank=True)
     country = models.CharField(max_length=100)
     city = models.CharField(max_length=100)
-    address = models.CharField(max_length=255)
 
     def __str__(self):
         return f"{self.name} ({self.city}, {self.country})"
