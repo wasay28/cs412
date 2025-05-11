@@ -28,6 +28,9 @@ class Tag(models.Model):
     name = models.CharField(max_length=50)
     description = models.TextField(blank=True)
 
+    def __str__(self):
+        return self.name
+
 class EntryTag(models.Model):
     journal_entry = models.ForeignKey(JournalEntry, on_delete=models.CASCADE)
     tag = models.ForeignKey(Tag, on_delete=models.CASCADE)

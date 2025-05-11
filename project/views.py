@@ -20,6 +20,9 @@ class JournalEntryListView(generic.ListView):
     # Optional: Order by most recent
     def get_queryset(self):
         queryset = JournalEntry.objects.order_by('-created_date') # Start with default ordering
+        tag_id = self.request.GET.get('tag')
+        if tag_id:
+            queryset = queryset.filter(tags__id=tag_id)
         query = self.request.GET.get('q')
         if query:
             # Search in title, content, user's username, location name, or tags
@@ -31,6 +34,12 @@ class JournalEntryListView(generic.ListView):
                 Q(tags__name__icontains=query)
             ).distinct() # Use distinct because of ManyToMany join with tags
         return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['all_tags'] = Tag.objects.all()
+        context['selected_tag'] = self.request.GET.get('tag')
+        return context
 
 class JournalEntryDetailView(generic.DetailView):
     model = JournalEntry

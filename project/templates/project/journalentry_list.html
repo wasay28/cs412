@@ -6,7 +6,13 @@
 {% block content %}
 
     <form method="get" action="{% url 'project:entry-list' %}" class="mb-3">
-        <div class="input-group">
+        <div class="input-group mb-2">
+            <select name="tag" class="form-select" onchange="this.form.submit()">
+                <option value="">-- Filter by Tag --</option>
+                {% for tag in all_tags %}
+                    <option value="{{ tag.id }}" {% if tag.id|stringformat:"s" == selected_tag %}selected{% endif %}>{{ tag.name }}</option>
+                {% endfor %}
+            </select>
             <input type="text" name="q" class="form-control" placeholder="Search entries..." value="{% if request.GET.q %}{{ request.GET.q }}{% endif %}">
             <button class="btn btn-outline-secondary" type="submit">Search</button>
         </div>
