@@ -78,10 +78,9 @@ class LocationListView(generic.ListView):
     context_object_name = 'location_list'
     template_name = 'project/location_list.html'
     def get_queryset(self):
-        queryset = Location.objects.order_by('name') # Start with default ordering
+        queryset = Location.objects.order_by('name')
         query = self.request.GET.get('q')
         if query:
-            # Search in name, country, city, or address
             queryset = queryset.filter(
                 Q(name__icontains=query) |
                 Q(country__icontains=query) |
@@ -89,6 +88,12 @@ class LocationListView(generic.ListView):
                 Q(address__icontains=query)
             )
         return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # Pass all locations with lat/lng for the map
+        context['locations_for_map'] = Location.objects.exclude(latitude__isnull=True, longitude__isnull=True)
+        return context
 
 class LocationDetailView(generic.DetailView):
     model = Location

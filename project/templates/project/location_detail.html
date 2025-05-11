@@ -7,16 +7,32 @@
     <p><strong>City:</strong> {{ location.city }}</p>
     <p><strong>Country:</strong> {{ location.country }}</p>
     <p><strong>Address:</strong> {{ location.address|default:"N/A" }}</p>
-    <p><strong>Coordinates (Temp):</strong> {{ location.coordinates|default:"N/A" }}</p>
     <p><strong>Description:</strong> {{ location.description|default:"N/A"|linebreaksbr }}</p>
+    <p><strong>Latitude:</strong> {{ location.latitude|default:"N/A" }}</p>
+    <p><strong>Longitude:</strong> {{ location.longitude|default:"N/A" }}</p>
+
+    {% if location.latitude and location.longitude %}
+    <div id="map" style="height: 300px; margin-bottom: 1em;"></div>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script>
+      var map = L.map('map').setView([{{ location.latitude }}, {{ location.longitude }}], 10);
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+      L.marker([{{ location.latitude }}, {{ location.longitude }}]).addTo(map)
+        .bindPopup("{{ location.name|escapejs }}").openPopup();
+    </script>
+    {% endif %}
 
     <hr>
     <h3>Journal Entries at this Location:</h3>
-    {% with entries=location.journal_entries.all %}
+    {% with entries=location.journalentry_set.all %}
         {% if entries %}
             <ul>
             {% for entry in entries %}
-                <li><a href="{% url 'project:entry-detail' pk=entry.pk %}">{{ entry.title }}</a> by {{ entry.user.username }}</li>
+                <li>
+                  <a href="{% url 'project:entry-detail' pk=entry.pk %}">{{ entry.title }}</a>
+                  by {{ entry.user.username }}
+                </li>
             {% endfor %}
             </ul>
         {% else %}
@@ -26,14 +42,8 @@
 
     <hr>
     <a href="{% url 'project:location-list' %}">Back to list</a>
-    
-    {% if user.is_authenticated %} 
-    <a href="{% url 'project:location-update' pk=location.pk %}" class="btn btn-secondary">Edit Location</a>
+    {% if user.is_authenticated %}
+      <a href="{% url 'project:location-update' pk=location.pk %}" class="btn btn-secondary">Edit Location</a>
+      <a href="{% url 'project:location-delete' pk=location.pk %}" class="btn btn-danger" style="margin-left: 5px;">Delete Location</a>
     {% endif %}
-
-    {% if user.is_authenticated %} 
-     <a href="{% url 'project:location-delete' pk=location.pk %}" class="btn btn-danger" style="margin-left: 5px;">Delete Location</a>
-    {% endif %}
-
-
 {% endblock %}

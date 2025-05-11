@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
 from pathlib import Path
+from django.urls import reverse_lazy
 import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -138,4 +139,4 @@ if socket.gethostname() == CS_DEPLOYMENT_HOSTNAME:
     STATIC_URL = '/wasayr1/static/'
     MEDIA_URL = '/wasayr1/media/'
 
-LOGIN_REDIRECT_URL = '/project/'
+LOGIN_REDIRECT_URL = reverse_lazy('project:entry-list')

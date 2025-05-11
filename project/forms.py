@@ -14,5 +14,8 @@ class JournalEntryForm(forms.ModelForm):
 class LocationForm(forms.ModelForm):
     class Meta:
         model = Location
-        fields = ['name', 'description', 'coordinates', 'country', 'city', 'address']
-        # Help text is already in the model for coordinates
+        fields = ['name', 'description', 'latitude', 'longitude', 'country', 'city']
+        widgets = {
+            'latitude': forms.HiddenInput(),
+            'longitude': forms.HiddenInput(),
+        }

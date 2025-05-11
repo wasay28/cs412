@@ -7,6 +7,25 @@
     <form method="post">
         {% csrf_token %}
         {{ form.as_p }}
+        <div id="map" style="height: 400px;"></div>
         <button type="submit">Save Location</button>
     </form>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script>
+      var map = L.map('map').setView([42.35, -71.1], 2); // Default to world view
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+      var marker;
+      map.on('click', function(e) {
+        if (marker) { map.removeLayer(marker); }
+        marker = L.marker(e.latlng).addTo(map);
+        document.getElementById('id_latitude').value = e.latlng.lat;
+        document.getElementById('id_longitude').value = e.latlng.lng;
+      });
+      // If editing, show marker at current location
+      {% if form.instance.latitude and form.instance.longitude %}
+        marker = L.marker([{{ form.instance.latitude }}, {{ form.instance.longitude }}]).addTo(map);
+        map.setView([{{ form.instance.latitude }}, {{ form.instance.longitude }}], 8);
+      {% endif %}
+    </script>
 {% endblock %}

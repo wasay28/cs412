@@ -19,7 +19,11 @@
             <li>
                 <a href="{% url 'project:entry-detail' pk=entry.pk %}">{{ entry.title }}</a>
                 by {{ entry.user.username }}
-                at <a href="{% url 'project:location-detail' pk=entry.location.pk %}">{{ entry.location.name }}</a>
+                {% if entry.location %}
+                    at <a href="{% url 'project:location-detail' pk=entry.location.pk %}">{{ entry.location.name }}</a>
+                {% else %}
+                    at <span>No location</span>
+                {% endif %}
                 on {{ entry.created_date|date:"M d, Y" }}
             </li>
         {% endfor %}
