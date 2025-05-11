@@ -7,7 +7,7 @@
     <div id="map" style="height: 400px; margin-bottom: 2em;"></div>
     <form method="get" action="{% url 'project:location-list' %}" class="mb-3">
         <div class="input-group">
-            <input type="text" name="q" class="form-control" placeholder="Search locations..." value="{{ request.GET.q }}">
+            <input type="text" name="q" class="form-control" placeholder="Search locations..." value="{% if request.GET.q %}{{ request.GET.q }}{% endif %}">
             <button class="btn btn-outline-secondary" type="submit">Search</button>
         </div>
     </form>
