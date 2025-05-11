@@ -4,7 +4,7 @@ from django.contrib import admin
 
 from .models import Location, Tag, JournalEntry
 
-# Register models to make them available in the admin interface
+
 @admin.register(Location)
 class LocationAdmin(admin.ModelAdmin): 
     list_display = ('name', 'city', 'country', 'latitude', 'longitude')

@@ -12,7 +12,7 @@ class JournalEntryForm(forms.ModelForm):
 class LocationForm(forms.ModelForm):
     class Meta:
         model = Location
-        fields = ['name', 'description', 'latitude', 'longitude', 'country', 'city']
+        fields = ['name', 'latitude', 'longitude', 'country', 'city']
         widgets = {
             'latitude': forms.HiddenInput(),
             'longitude': forms.HiddenInput(),
