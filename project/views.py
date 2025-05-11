@@ -3,6 +3,8 @@
 from django.views import generic
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin # To protect create views
+from django.contrib import messages
+from django.shortcuts import redirect
 
 from django.db.models import Q
 
@@ -115,9 +117,17 @@ class LocationUpdateView(LoginRequiredMixin, generic.UpdateView):
     def get_success_url(self):
         return reverse_lazy('project:location-detail', kwargs={'pk': self.object.pk})
 
-class LocationDeleteView(LoginRequiredMixin, generic.DeleteView): # Add permission check if needed
+class LocationDeleteView(LoginRequiredMixin, generic.DeleteView):
     model = Location
-    template_name = 'project/location_confirm_delete.html' 
+    template_name = 'project/location_confirm_delete.html'
     success_url = reverse_lazy('project:location-list')
+
+    def dispatch(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        # Check if any journal entries reference this location
+        if self.object.journalentry_set.exists():
+            messages.error(request, 'Cannot delete this location because one or more journal entries reference it. Please reassign or delete those entries first.')
+            return redirect('project:location-detail', pk=self.object.pk)
+        return super().dispatch(request, *args, **kwargs)
 
 
