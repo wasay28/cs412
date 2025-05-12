@@ -5,6 +5,7 @@ from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin # To protect create views
 from django.contrib import messages
 from django.shortcuts import redirect
+from django.db.models.functions import ExtractYear
 
 from django.db.models import Q
 
@@ -25,13 +26,16 @@ class JournalEntryListView(generic.ListView):
             queryset = queryset.filter(tags__id=tag_id)
         query = self.request.GET.get('q')
         if query:
-            # Search in title, content, user's username, location name, or tags
-            queryset = queryset.filter(
+            # Search in title, content, year, user's username, location name, or tags
+            queryset = queryset.annotate(
+                year=ExtractYear('created_date')
+            ).filter(
                 Q(title__icontains=query) |
                 Q(content__icontains=query) |
                 Q(user__username__icontains=query) |
                 Q(location__name__icontains=query) |
-                Q(tags__name__icontains=query)
+                Q(tags__name__icontains=query) |
+                Q(year__icontains=query)
             ).distinct() # Use distinct because of ManyToMany join with tags
         return queryset
 
