@@ -21,7 +21,7 @@
     {% endif %}
 
     <hr>
-    <div>{{ journalentry.content|linebreaksbr }}</div> {# Use linebreaksbr to respect newlines #}
+    <div>{{ journalentry.content|linebreaksbr }}</div> 
 
     <hr>
     <a href="{% url 'project:entry-list' %}">Back to list</a>

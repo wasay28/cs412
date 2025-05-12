@@ -4,7 +4,7 @@
 {% block header %}Add a New Journal Entry{% endblock %}
 
 {% block content %}
-    <form method="post" enctype="multipart/form-data"> {# Add enctype for image uploads #}
+    <form method="post" enctype="multipart/form-data"> 
         {% csrf_token %}
         {{ form.as_p }} {# Render form fields as paragraphs #}
         <button type="submit">Save Entry</button>
