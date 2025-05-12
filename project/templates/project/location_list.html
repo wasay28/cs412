@@ -5,6 +5,25 @@
 
 {% block content %}
     <div id="map" style="height: 400px; margin-bottom: 2em;"></div>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script>
+      // Initialize the map centered at a default location and zoom level
+      var map = L.map('map').setView([42.35, -71.1], 2);
+
+      // Add OpenStreetMap tiles to the map
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+
+      // Add a marker for each location in locations_for_map
+      {% for loc in locations_for_map %}
+        {% if loc.latitude and loc.longitude %}
+          // Add marker for {{ loc.name }}
+          var marker = L.marker([{{ loc.latitude }}, {{ loc.longitude }}]).addTo(map);
+          // Bind a popup with location name, city, country, and a link to details
+          marker.bindPopup("<b>{{ loc.name }}</b><br>{{ loc.city }}, {{ loc.country }}<br><a href='{% url 'project:location-detail' pk=loc.pk %}'>View Details</a>");
+        {% endif %}
+      {% endfor %}
+    </script>
     <form method="get" action="{% url 'project:location-list' %}" class="mb-3">
         <div class="input-group">
             <input type="text" name="q" class="form-control" placeholder="Search locations..." value="{% if request.GET.q %}{{ request.GET.q }}{% endif %}">
@@ -24,16 +43,4 @@
     {% else %}
         <p>No locations found. <a href="{% url 'project:location-create' %}">Add one?</a></p>
     {% endif %}
-    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
-    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-    <script>
-      var map = L.map('map').setView([42.35, -71.1], 2);
-      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
-      {% for loc in locations_for_map %}
-        {% if loc.latitude and loc.longitude %}
-          var marker = L.marker([{{ loc.latitude }}, {{ loc.longitude }}]).addTo(map);
-          marker.bindPopup("<b>{{ loc.name }}</b><br>{{ loc.city }}, {{ loc.country }}<br><a href='{% url 'project:location-detail' pk=loc.pk %}'>View Details</a>");
-        {% endif %}
-      {% endfor %}
-    </script>
 {% endblock %}

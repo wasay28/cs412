@@ -14,8 +14,13 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
     <script>
+      // Initialize the map centered on this location's coordinates
       var map = L.map('map').setView([{{ location.latitude }}, {{ location.longitude }}], 10);
+
+      // Add OpenStreetMap tiles to the map
       L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+
+      // Add a marker at this location's coordinates and open a popup with the location name
       L.marker([{{ location.latitude }}, {{ location.longitude }}]).addTo(map)
         .bindPopup("{{ location.name|escapejs }}").openPopup();
     </script>
