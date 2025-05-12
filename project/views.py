@@ -99,8 +99,7 @@ class LocationListView(generic.ListView):
             queryset = queryset.filter(
                 Q(name__icontains=query) |
                 Q(country__icontains=query) |
-                Q(city__icontains=query) |
-                Q(address__icontains=query)
+                Q(city__icontains=query) 
             )
         return queryset
 
